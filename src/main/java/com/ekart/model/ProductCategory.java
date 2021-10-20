@@ -11,10 +11,10 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Component
-public class ProductSize {
+public class ProductCategory {
     private Long id;
 
-    private String size;
+    private String name;
 
     private Set<Product> products;
 }

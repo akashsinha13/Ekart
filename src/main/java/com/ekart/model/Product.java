@@ -31,7 +31,7 @@ public class Product {
 
     private ProductColor color;
 
-    private ProductType type;
+    private ProductCategory category;
 
     private ProductBrand brand;
 

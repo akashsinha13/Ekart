@@ -1,5 +1,5 @@
 package com.ekart.model;
 
-public enum ProductColor {
+public enum Color {
     BLACK, BLUE, GREEN, PINK, RED, WHITE, YELLOW;
 }

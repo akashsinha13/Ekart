@@ -11,16 +11,16 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="product_category")
-public class ProductCategory {
+@Table(name="size")
+public class Size {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
-    @Column(name="name")
-    private String name;
+    @Column(name="size")
+    private String size;
 
     @Column(name="products")
     private Set<Product> products;

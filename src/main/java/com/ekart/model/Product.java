@@ -40,16 +40,16 @@ public class Product {
     private Integer quantity;
 
     @Column(name="size")
-    private ProductSize size;
+    private Size size;
 
     @Column(name="color")
-    private ProductColor color;
+    private Color color;
 
     @Column(name="category")
-    private ProductCategory category;
+    private Category category;
 
     @Column(name="brand")
-    private ProductBrand brand;
+    private Brand brand;
 
     @Column(name="like")
     private Integer likes;

@@ -3,18 +3,25 @@ package com.ekart.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Component
+@Entity
+@Table(name="product_size")
 public class ProductSize {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
 
+    @Column(name="size")
     private String size;
 
+    @Column(name="products")
     private Set<Product> products;
 }

@@ -11,17 +11,21 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="size")
+@Table
 public class Size {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @SequenceGenerator(
+            name = "size_sequence",
+            sequenceName = "size_sequence"
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "size_sequence"
+    )
     private Long id;
 
-    @Column(name="size")
     private String size;
 
-    @Column(name="products")
     private Set<Product> products;
 }

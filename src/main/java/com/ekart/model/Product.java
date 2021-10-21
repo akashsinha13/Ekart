@@ -16,64 +16,59 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="product")
+@Table
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @SequenceGenerator(
+            name = "product_sequence",
+            sequenceName = "product_sequence"
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "product_sequence"
+    )
     private Long id;
 
-    @Column(name="name")
     private String name;
 
-    @Column(name="description")
     private List<String> description;
 
-    @Column(name="price")
     private BigDecimal price;
 
-    @Column(name="discount")
     private Double discount;
 
-    @Column(name="quantity")
     private Integer quantity;
 
-    @Column(name="size")
     private Size size;
 
-    @Column(name="color")
     private Color color;
 
-    @Column(name="category")
     private Category category;
 
-    @Column(name="brand")
     private Brand brand;
 
-    @Column(name="like")
     private Integer likes;
 
-    @Column(name="dislike")
     private Integer dislikes;
 
-    @Column(name="rating")
     private Double rating;
 
-    @Column(name="create_date")
-    @CreationTimestamp
-    private LocalDate createdDate;
-
-    @Column(name="modified_date")
-    @UpdateTimestamp
-    private LocalDate lastModifiedDate;
-
-    @Column(name="info")
     private Map<String, List<String>> info;
 
-    @Column(name="thumbnail_image")
+    @CreationTimestamp
+    @Column(name = "create_date")
+    private LocalDate createdDate;
+
+    @UpdateTimestamp
+    @Column(name = "modified_date")
+    private LocalDate lastModifiedDate;
+
+    @Lob
+    @Column(name = "thumbnail_image", columnDefinition = "BLOB")
     private byte[] thumbnailImage;
 
-    @Column(name="images")
+    @Lob
+    @Column(columnDefinition = "BLOB")
     private List<Byte[]> images;
 }

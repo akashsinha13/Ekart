@@ -27,5 +27,6 @@ public class Size {
 
     private String size;
 
+    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)
     private Set<Product> products;
 }

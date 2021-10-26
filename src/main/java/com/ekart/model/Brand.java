@@ -26,6 +26,7 @@ public class Brand {
     private Long id;
 
     private String name;
-
+    
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Product> products;
 }

@@ -27,6 +27,6 @@ public class Size {
 
     private String size;
 
-    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Product> products;
 }

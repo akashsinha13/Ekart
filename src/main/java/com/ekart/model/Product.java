@@ -58,17 +58,17 @@ public class Product {
 
     private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "size_id")
     private Size size;
 
     private Color color;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
@@ -95,6 +95,6 @@ public class Product {
     private byte[] thumbnailImage;
 
     @Lob
-    @ElementCollection
-    private List<Byte[]> images;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<byte[]> images;
 }

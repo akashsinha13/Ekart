@@ -27,6 +27,6 @@ public class Category {
 
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Product> products;
 }

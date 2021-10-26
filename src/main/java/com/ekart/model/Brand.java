@@ -27,6 +27,6 @@ public class Brand {
 
     private String name;
     
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Product> products;
 }

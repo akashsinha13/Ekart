@@ -1,5 +1,6 @@
 package com.ekart.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -61,16 +62,19 @@ public class Product {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "size_id")
+    @JsonIgnoreProperties("products")
     private Set<Size> size;
 
     private Color color;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties("products")
     private Category category;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "brand_id")
+    @JsonIgnoreProperties("products")
     private Brand brand;
 
     private Integer likes;
@@ -93,9 +97,11 @@ public class Product {
 
     @Lob
     @Column(name = "thumbnail_image")
+    @Type(type = "org.hibernate.type.ImageType")
     private byte[] thumbnailImage;
 
     @Lob
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
+    @Type(type = "org.hibernate.type.ImageType")
     private List<byte[]> images;
 }

@@ -28,6 +28,7 @@ public class Brand {
 
     private String name;
     
+
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("brand")
     private Set<Product> products;

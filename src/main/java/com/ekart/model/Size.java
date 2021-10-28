@@ -26,6 +26,7 @@ public class Size {
     )
     private Long id;
 
+    @Column(unique = true)
     private String size;
 
     @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)

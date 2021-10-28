@@ -26,6 +26,7 @@ public class Brand {
     )
     private Long id;
 
+    @Column(unique = true)
     private String name;
     
 

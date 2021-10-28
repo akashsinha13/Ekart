@@ -4,6 +4,10 @@ import com.ekart.dao.ProductRepository;
 import com.ekart.exception.RecordNotFoundException;
 import com.ekart.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,9 +20,19 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<Product> getAllProduct() {
-        List<Product> products = productRepository.findAll();
-        return products.size() > 0 ? products : new ArrayList<Product>();
+    public List<Product> getAllProducts(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+        Page<Product> productPage = productRepository.findAll(pageable);
+        if(productPage.hasContent()) {
+            return productPage.getContent();
+        } else {
+            return new ArrayList<Product>();
+        }
+    }
+
+    public List<byte[]> getProductImagesById(Long id) {
+        List<byte[]> images = productRepository.getProductImagesById(id);
+        return images.size() > 0 ? images : new ArrayList<byte[]>();
     }
 
     public Product getProductById(Long id) throws RecordNotFoundException {

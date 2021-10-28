@@ -1,5 +1,6 @@
 package com.ekart.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -103,5 +104,6 @@ public class Product {
     @Lob
     @ElementCollection
     @Type(type = "org.hibernate.type.ImageType")
+    @JsonIgnore
     private List<byte[]> images;
 }

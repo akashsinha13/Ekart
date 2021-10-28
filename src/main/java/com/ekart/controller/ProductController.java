@@ -21,12 +21,12 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(@RequestParam(defaultValue = "0") Integer pageNo,
                                                         @RequestParam(defaultValue = "10") Integer pageSize,
-                                                        @RequestParam(defaultValue = "id") String sortBy) {
+                                                        @RequestParam(defaultValue = "name") String sortBy) {
         List<Product> products = productService.getAllProducts(pageNo, pageSize, sortBy);
         return new ResponseEntity<List<Product>>(products, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/images/{id}")
+    @GetMapping(path = "/{id}/images")
     public ResponseEntity<List<byte[]>> getProductImagesById(@PathVariable Long id) {
         List<byte[]> products = productService.getProductImagesById(id);
         return new ResponseEntity<List<byte[]>>(products, new HttpHeaders(), HttpStatus.OK);

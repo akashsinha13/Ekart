@@ -26,6 +26,7 @@ public class Category {
     )
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)

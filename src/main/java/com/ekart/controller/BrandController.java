@@ -26,9 +26,6 @@ public class BrandController {
 
     @GetMapping
     public ResponseEntity<List<BrandDto>> getAllBrand() {
-        Brand b = new Brand();
-        b.setName("Samsung");
-        Brand newBrand = brandService.saveBrand(b);
         List<Brand> brands = brandService.getAllBrand();
         List<BrandDto> brandsResponse = brands.stream()
                                               .map(brand -> modelMapper.map(brand, BrandDto.class))

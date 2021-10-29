@@ -1,8 +1,10 @@
 package com.ekart.controller;
 
+import com.ekart.dto.BrandDto;
 import com.ekart.exception.RecordNotFoundException;
 import com.ekart.model.Brand;
 import com.ekart.service.BrandService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${apiPrefix}/brands")
@@ -18,10 +21,19 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @GetMapping
-    public ResponseEntity<List<Brand>> getAllBrand() {
+    public ResponseEntity<List<BrandDto>> getAllBrand() {
+        Brand b = new Brand();
+        b.setName("Samsung");
+        Brand newBrand = brandService.saveBrand(b);
         List<Brand> brands = brandService.getAllBrand();
-        return new ResponseEntity<List<Brand>>(brands, new HttpHeaders(), HttpStatus.OK);
+        List<BrandDto> brandsResponse = brands.stream()
+                                              .map(brand -> modelMapper.map(brand, BrandDto.class))
+                                              .collect(Collectors.toList());
+        return new ResponseEntity<List<BrandDto>>(brandsResponse, new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")

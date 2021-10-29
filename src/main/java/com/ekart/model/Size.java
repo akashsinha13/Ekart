@@ -1,6 +1,6 @@
 package com.ekart.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +30,6 @@ public class Size {
     private String size;
 
     @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("size")
+    @JsonIgnore
     private Set<Product> products;
 }

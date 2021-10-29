@@ -1,8 +1,10 @@
 package com.ekart.controller;
 
+import com.ekart.dto.ProductDto;
 import com.ekart.exception.RecordNotFoundException;
 import com.ekart.model.Product;
 import com.ekart.service.ProductService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${apiPrefix}/products")
@@ -18,12 +21,18 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(defaultValue = "0") Integer pageNo,
-                                                        @RequestParam(defaultValue = "10") Integer pageSize,
-                                                        @RequestParam(defaultValue = "name") String sortBy) {
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(defaultValue = "0") Integer pageNo,
+                                                           @RequestParam(defaultValue = "10") Integer pageSize,
+                                                           @RequestParam(defaultValue = "name") String sortBy) {
         List<Product> products = productService.getAllProducts(pageNo, pageSize, sortBy);
-        return new ResponseEntity<List<Product>>(products, new HttpHeaders(), HttpStatus.OK);
+        List<ProductDto> productsResponse = products.stream()
+                                                    .map(product -> modelMapper.map(product, ProductDto.class))
+                                                    .collect(Collectors.toList());
+        return new ResponseEntity<List<ProductDto>>(productsResponse, new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}/images")

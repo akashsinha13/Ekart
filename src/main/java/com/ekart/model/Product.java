@@ -1,5 +1,6 @@
 package com.ekart.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import com.vladmihalcea.hibernate.type.json.JsonType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -89,12 +90,14 @@ public class Product {
     private Map<String, List<String>> info;
 
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_date")
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @UpdateTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "modified_date")
-    private LocalDate lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     @Lob
     @Column(name = "thumbnail_image")

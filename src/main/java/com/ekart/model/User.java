@@ -1,5 +1,6 @@
 package com.ekart.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -54,11 +55,13 @@ public class User {
     private boolean isAdmin;
 
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_date")
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "last_login")
-    private LocalDate lastLogin;
+    private LocalDateTime lastLogin;
 
     @Column(name = "primary_mobile")
     private Long primaryMobile;

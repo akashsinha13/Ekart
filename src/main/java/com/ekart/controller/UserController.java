@@ -3,6 +3,7 @@ package com.ekart.controller;
 import com.ekart.dto.ProductDto;
 import com.ekart.dto.UserDto;
 import com.ekart.exception.RecordNotFoundException;
+import com.ekart.exception.UserAlreadyExistException;
 import com.ekart.model.Product;
 import com.ekart.model.User;
 import com.ekart.service.UserService;
@@ -45,8 +46,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        User newUser = userService.saveUser(user);
+    public ResponseEntity<User> addUser(@RequestBody User user) throws UserAlreadyExistException {
+        User newUser = userService.addUser(user);
         return new ResponseEntity<User>(newUser, new HttpHeaders(), HttpStatus.CREATED);
     }
 

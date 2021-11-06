@@ -47,19 +47,21 @@ public class User {
 
     private String email;
 
+    private UserRole role;
+
+    @Column(name = "is_active")
+    private boolean isActive;
+
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")
     private List<Address> addresses;
 
-    @Column(name = "admin")
-    private boolean isAdmin;
-
     @CreationTimestamp
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_date")
     private LocalDateTime createdDate;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 

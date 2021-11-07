@@ -59,6 +59,7 @@ public class UserService {
     }
 
     private boolean isEmailAlreadyExist(String email) {
+
         return userRepository.findByEmail(email) != null;
     }
 }

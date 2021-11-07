@@ -17,12 +17,7 @@ public class AuthUserDetails implements UserDetails {
         this.name = user.getFirstName();
         this.password = user.getPassword();
         this.active = user.isActive();
-        this.authorities =
-                new ArrayList(Collections.singleton
-                        (new SimpleGrantedAuthority(
-                                "User")
-                        )
-                );
+        this.authorities = getAuthorities(user.getRoles());
     }
 
     @Override
@@ -60,10 +55,10 @@ public class AuthUserDetails implements UserDetails {
         return active;
     }
 
-    private static List<GrantedAuthority> getAuthorities(List<UserRole> roles) {
+    private static List<GrantedAuthority> getAuthorities(Set<Role> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (UserRole role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.toString()));
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;
     }

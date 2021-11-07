@@ -13,6 +13,7 @@ import org.hibernate.annotations.TypeDefs;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -47,10 +48,19 @@ public class User {
 
     private String email;
 
-    private UserRole role;
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id")
+    )
+    private Set<Role> roles;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    private boolean enabled;
+
+    private boolean active;
 
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")

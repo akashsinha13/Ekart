@@ -32,12 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().and().cors().disable();
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-                .antMatchers("/api/v1/brands/**").hasAnyRole("ADMIN", "STAFF")
-                .antMatchers("/api/v1/category/**").hasAnyRole("ADMIN", "STAFF")
-                .antMatchers("/api/v1/sizes/**").hasAnyRole("ADMIN", "STAFF")
-                .antMatchers(HttpMethod.POST, "/api/v1/products/**").hasAnyRole("ADMIN", "STAFF")
-                .antMatchers(HttpMethod.PUT, "/api/v1/products/**").hasAnyRole("ADMIN", "STAFF")
+//                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+//                .antMatchers("/api/v1/brands/**").hasAnyRole("ADMIN", "STAFF")
+//                .antMatchers("/api/v1/category/**").hasAnyRole("ADMIN", "STAFF")
+//                .antMatchers("/api/v1/sizes/**").hasAnyRole("ADMIN", "STAFF")
+//                .antMatchers(HttpMethod.POST, "/api/v1/products/**").hasAnyRole("ADMIN", "STAFF")
+//                .antMatchers(HttpMethod.PUT, "/api/v1/products/**").hasAnyRole("ADMIN", "STAFF")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();

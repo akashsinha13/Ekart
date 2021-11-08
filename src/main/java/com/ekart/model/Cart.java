@@ -6,13 +6,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table
 public class Cart {
     @Id
     @SequenceGenerator(

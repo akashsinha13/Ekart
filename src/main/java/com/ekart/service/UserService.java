@@ -2,6 +2,7 @@ package com.ekart.service;
 
 import com.ekart.dao.UserRepository;
 import com.ekart.exception.RecordNotFoundException;
+import com.ekart.exception.UserAlreadyExistException;
 import com.ekart.model.Product;
 import com.ekart.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,10 @@ public class UserService {
         }
     }
 
-    public User saveUser(User user) {
+    public User addUser(User user) throws UserAlreadyExistException {
+        if (isEmailAlreadyExist(user.getEmail())) {
+            throw new UserAlreadyExistException("Account already exist with given email: " + user.getEmail());
+        }
         return userRepository.save(user);
     }
 
@@ -52,5 +56,10 @@ public class UserService {
         } else {
             throw new RecordNotFoundException("No user exists for given id " + id);
         }
+    }
+
+    private boolean isEmailAlreadyExist(String email) {
+
+        return userRepository.findByEmail(email) != null;
     }
 }

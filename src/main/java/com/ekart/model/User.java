@@ -13,6 +13,7 @@ import org.hibernate.annotations.TypeDefs;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -47,19 +48,30 @@ public class User {
 
     private String email;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id")
+    )
+    private Set<Role> roles;
+
+    private boolean enabled;
+
+    private boolean active;
+
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")
     private List<Address> addresses;
 
-    @Column(name = "admin")
-    private boolean isAdmin;
-
     @CreationTimestamp
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_date")
     private LocalDateTime createdDate;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 

@@ -29,7 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     // use for authorization and form login
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().and().cors().disable();
+        http.cors().disable();
+        http.csrf().disable();
 
         http.authorizeRequests()
 //                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")

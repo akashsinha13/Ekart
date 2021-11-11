@@ -57,13 +57,13 @@ public class ProductService {
         }
     }
 
-    public Product saveProduct(Map<String, Object> request) {
+    public Product saveProduct(Map<String, Object> productMap) {
         Category newCategory;
         Brand newBrand;
         Set<Size> newSize = new HashSet<>();
         List<String> desc = new ArrayList<>();
 
-        String categoryName = (String) request.get(Constants.CATEGORY);
+        String categoryName = (String) productMap.get(Constants.CATEGORY);
         Optional<Category> category = categoryRepository.findCategoryByName(categoryName);
         if(!category.isPresent()) {
             newCategory = new Category();
@@ -71,7 +71,7 @@ public class ProductService {
         } else {
             newCategory = category.get();
         }
-        String brandName = (String) request.get(Constants.BRAND);
+        String brandName = (String) productMap.get(Constants.BRAND);
         Optional<Brand> brand = brandRepository.findBrandByName(brandName);
         if(!brand.isPresent()) {
             newBrand = new Brand();
@@ -79,7 +79,7 @@ public class ProductService {
         } else {
             newBrand = brand.get();
         }
-        String sizeName = (String) request.get(Constants.SIZE);
+        String sizeName = (String) productMap.get(Constants.SIZE);
         if(sizeName != null && sizeName.length() > 0) {
             Optional<Size> size = sizeRepository.findSizeBySize(sizeName);
             if(!size.isPresent()) {
@@ -90,19 +90,19 @@ public class ProductService {
                 newSize.add(size.get());
             }
         }
-        String description = (String) request.get(Constants.DESCRIPTION);
+        String description = (String) productMap.get(Constants.DESCRIPTION);
         if(description != null) {
             desc = Arrays.stream(description.split("\n")).collect(Collectors.toList());
         }
-        String color = (String) request.get(Constants.COLOR);
+        String color = (String) productMap.get(Constants.COLOR);
         Color newColor = Color.valueOf(color);
-        byte[] thumbnailImage = ((String) request.get(Constants.THUMBNAIL)).getBytes();
-        List<byte[]> images = ((List<String>) request.get(Constants.IMAGES))
+        byte[] thumbnailImage = ((String) productMap.get(Constants.THUMBNAIL)).getBytes();
+        List<byte[]> images = ((List<String>) productMap.get(Constants.IMAGES))
                                 .stream().map(data -> data.getBytes()).collect(Collectors.toList());
-        String name = (String) request.get(Constants.NAME);
-        BigDecimal price = new BigDecimal((Integer) request.get(Constants.PRICE));
-        Integer quantity = (Integer) request.get(Constants.QUANTITY);
-        Double discount = ((Integer) request.get(Constants.DISCOUNT)).doubleValue();
+        String name = (String) productMap.get(Constants.NAME);
+        BigDecimal price = new BigDecimal((Integer) productMap.get(Constants.PRICE));
+        Integer quantity = (Integer) productMap.get(Constants.QUANTITY);
+        Double discount = ((Integer) productMap.get(Constants.DISCOUNT)).doubleValue();
 
         Product product = new Product(name, newCategory, newBrand, newSize, newColor, desc,
                 price, discount, quantity, thumbnailImage,  images);

@@ -12,7 +12,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table
 public class Category {
 
     @Id

@@ -26,7 +26,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table
 @TypeDefs({
 		@TypeDef(
 				name="list-array",

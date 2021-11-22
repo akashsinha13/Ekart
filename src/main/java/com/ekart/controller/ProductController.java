@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -48,8 +49,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product newProduct = productService.saveProduct(product);
+    public ResponseEntity<Product> addProduct(@RequestBody Map<String, Object> request) {
+        Product newProduct = productService.saveProduct(request);
         return new ResponseEntity<Product>(newProduct, new HttpHeaders(), HttpStatus.CREATED);
     }
 

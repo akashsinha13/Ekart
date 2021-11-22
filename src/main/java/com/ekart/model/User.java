@@ -1,5 +1,6 @@
 package com.ekart.model;
 
+import com.ekart.validator.CheckEmail;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Getter;
@@ -11,6 +12,8 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -38,14 +41,19 @@ public class User {
     )
     private Long id;
 
+    @NotNull
+    @Size(min = 1)
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
 
+    @NotNull
     private byte[] password;
 
+    @NotNull
+    @CheckEmail
     private String email;
 
     @ManyToMany
@@ -62,6 +70,7 @@ public class User {
 
     private boolean active;
 
+    @NotNull
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")
     private List<Address> addresses;
@@ -75,6 +84,7 @@ public class User {
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
+    @NotNull
     @Column(name = "primary_mobile")
     private Long primaryMobile;
 

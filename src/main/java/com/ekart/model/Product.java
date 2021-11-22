@@ -26,7 +26,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table
 @TypeDefs({
 		@TypeDef(
 				name="list-array",
@@ -109,4 +108,20 @@ public class Product {
     @Type(type = "org.hibernate.type.ImageType")
     @JsonIgnore
     private List<byte[]> images;
+
+    public Product(String name, Category category, Brand brand, Set<Size> size, Color color, List<String> description,
+                   BigDecimal price, Double discount, Integer quantity, byte[] thumbnailImage, List<byte[]> images
+                   ) {
+        this.name = name;
+        this.category = category;
+        this.brand = brand;
+        this.size = size;
+        this.color = color;
+        this.description = description;
+        this.price = price;
+        this.discount = discount;
+        this.quantity = quantity;
+        this.thumbnailImage = thumbnailImage;
+        this.images = images;
+    }
 }

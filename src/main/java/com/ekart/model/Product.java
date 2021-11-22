@@ -70,9 +70,9 @@ public class Product {
     private Color color;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "sub_category_id")
     @JsonIgnoreProperties("products")
-    private Category category;
+    private SubCategory subCategory;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "brand_id")

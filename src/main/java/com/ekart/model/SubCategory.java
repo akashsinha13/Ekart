@@ -39,7 +39,7 @@ public class SubCategory {
     @JsonIgnore
     private Category category;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "size_id")
     @JsonIgnore
     private Size size;

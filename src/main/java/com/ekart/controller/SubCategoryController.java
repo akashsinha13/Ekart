@@ -38,16 +38,4 @@ public class SubCategoryController {
         SubCategory subCategory = subCategoryService.getSubCategoryById(id);
         return new ResponseEntity<SubCategory>(subCategory, new HttpHeaders(), HttpStatus.OK);
     }
-
-    @PostMapping
-    public ResponseEntity<SubCategory> addSubCategory(@RequestBody SubCategory subCategory) {
-        SubCategory newSubCategory = subCategoryService.saveSubCategory(subCategory);
-        return new ResponseEntity<SubCategory>(newSubCategory, new HttpHeaders(), HttpStatus.CREATED);
-    }
-
-    @DeleteMapping(path = "/{id}")
-    public HttpStatus deleteSubCategoryById(@PathVariable Long id) throws RecordNotFoundException {
-        subCategoryService.deleteSubCategoryById(id);
-        return HttpStatus.FORBIDDEN;
-    }
 }

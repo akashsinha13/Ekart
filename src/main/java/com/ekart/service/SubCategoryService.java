@@ -29,17 +29,4 @@ public class SubCategoryService {
             throw new RecordNotFoundException("No category exists for given id " + id);
         }
     }
-
-    public SubCategory saveSubCategory(SubCategory subCategory) {
-        return subCategoryRepository.save(subCategory);
-    }
-
-    public void deleteSubCategoryById(Long id) throws RecordNotFoundException {
-        Optional<SubCategory> subCategory = subCategoryRepository.findById(id);
-        if (subCategory.isPresent()) {
-            subCategoryRepository.deleteById(id);
-        } else {
-            throw new RecordNotFoundException("No sub category exists for given id " + id);
-        }
-    }
 }

@@ -109,11 +109,11 @@ public class Product {
     @JsonIgnore
     private List<byte[]> images;
 
-    public Product(String name, Category category, Brand brand, Set<Size> size, Color color, List<String> description,
+    public Product(String name, SubCategory subCategory, Brand brand, Set<Size> size, Color color, List<String> description,
                    BigDecimal price, Double discount, Integer quantity, byte[] thumbnailImage, List<byte[]> images
                    ) {
         this.name = name;
-        this.category = category;
+        this.subCategory = subCategory;
         this.brand = brand;
         this.size = size;
         this.color = color;

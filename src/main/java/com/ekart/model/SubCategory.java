@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -42,5 +43,5 @@ public class SubCategory {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "size_id")
     @JsonIgnore
-    private Size size;
+    private List<Size> size;
 }

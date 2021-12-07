@@ -8,13 +8,13 @@ import java.util.*;
 
 public class AuthUserDetails implements UserDetails {
 
-    private String name;
-    private byte[] password;
+    private String userName;
+    private String password;
     private boolean active;
     private List<GrantedAuthority> authorities;
 
     public AuthUserDetails(User user) {
-        this.name = user.getFirstName();
+        this.userName = user.getEmail();
         this.password = user.getPassword();
         this.active = user.isActive();
         this.authorities = getAuthorities(user.getRoles());
@@ -27,12 +27,12 @@ public class AuthUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return new String(password);
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return name;
+        return userName;
     }
 
     @Override

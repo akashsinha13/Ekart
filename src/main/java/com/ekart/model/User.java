@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -50,27 +51,17 @@ public class User {
     private String lastName;
 
     @NotNull
-    private byte[] password;
+    private String password;
 
     @NotNull
     @CheckEmail
     private String email;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id")
-    )
-    private Set<Role> roles;
-
-    private boolean enabled;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles = new HashSet<>();
 
     private boolean active;
 
-    @NotNull
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")
     private List<Address> addresses;
@@ -96,4 +87,14 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
     private Cart cart;
+
+    public User(@NotNull @Size(min = 1) String firstName, String lastName, @NotNull String password, @NotNull String email, Set<Role> roles, boolean active, @NotNull Long primaryMobile) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+        this.active = active;
+        this.primaryMobile = primaryMobile;
+    }
 }

@@ -39,15 +39,4 @@ public class CategoryController {
         return new ResponseEntity<Category>(category, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        Category newCategory = categoryService.saveCategory(category);
-        return new ResponseEntity<Category>(newCategory, new HttpHeaders(), HttpStatus.CREATED);
-    }
-
-    @DeleteMapping(path = "/{id}")
-    public HttpStatus deleteCategoryById(@PathVariable Long id) throws RecordNotFoundException {
-        categoryService.deleteCategoryById(id);
-        return HttpStatus.FORBIDDEN;
-    }
 }

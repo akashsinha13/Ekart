@@ -4,6 +4,7 @@ import com.ekart.dto.ProductDto;
 import com.ekart.dto.UserDto;
 import com.ekart.exception.RecordNotFoundException;
 import com.ekart.exception.UserAlreadyExistException;
+import com.ekart.model.Address;
 import com.ekart.model.Product;
 import com.ekart.model.User;
 import com.ekart.service.UserService;
@@ -55,5 +56,15 @@ public class UserController {
     public HttpStatus deleteUserById(@PathVariable Long id) throws RecordNotFoundException {
         userService.deleteUserById(id);
         return HttpStatus.FORBIDDEN;
+    }
+
+    @PutMapping(path = "/{id}/role")
+    public void addRoleToUser(@PathVariable Long id, @RequestBody String role) throws RecordNotFoundException {
+        userService.addRole(id, role);
+    }
+
+    @PutMapping(path = "/{id}/address")
+    public void addAddressToUser(@PathVariable Long id, @RequestBody List<Address> address) throws RecordNotFoundException {
+        userService.addAddress(id, address);
     }
 }

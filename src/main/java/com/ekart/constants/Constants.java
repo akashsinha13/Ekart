@@ -13,4 +13,10 @@ public class Constants {
     public final static String PRICE = "price";
     public final static String QUANTITY = "quantity";
     public final static String SIZE = "size";
+    public final static String PASSWORD = "password";
+    public final static String EMAIL = "email";
+    public final static String MOBILE_NUMBER = "mobileNumber";
+    public final static String ADMIN = "admin";
+    public final static String STAFF = "staff";
+    public final static String USER = "user";
 }

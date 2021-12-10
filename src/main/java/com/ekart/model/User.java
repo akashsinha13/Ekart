@@ -1,6 +1,5 @@
 package com.ekart.model;
 
-import com.ekart.validator.CheckEmail;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Getter;
@@ -44,20 +43,17 @@ public class User {
 
     @NotNull
     @Size(min = 1)
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    private String name;
 
     @NotNull
     private String password;
 
     @NotNull
-    @CheckEmail
+    @Column(unique = true)
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
     private Set<Role> roles = new HashSet<>();
 
     private boolean active;
@@ -82,15 +78,12 @@ public class User {
     @Column(name = "secondary_mobile")
     private Long secondaryMobile;
 
-    private Long telephone;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    public User(@NotNull @Size(min = 1) String firstName, String lastName, @NotNull String password, @NotNull String email, Set<Role> roles, boolean active, @NotNull Long primaryMobile) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(@NotNull @Size(min = 1) String name, @NotNull String password, @NotNull String email, Set<Role> roles, boolean active, @NotNull Long primaryMobile) {
+        this.name = name;
         this.password = password;
         this.email = email;
         this.roles = roles;

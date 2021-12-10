@@ -1,11 +1,11 @@
 package com.ekart.service;
 
+import com.ekart.constants.Constants;
 import com.ekart.dao.RoleRepository;
 import com.ekart.dao.UserRepository;
 import com.ekart.exception.RecordNotFoundException;
 import com.ekart.exception.UserAlreadyExistException;
 import com.ekart.model.Address;
-import com.ekart.model.Product;
 import com.ekart.model.Role;
 import com.ekart.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -54,13 +52,25 @@ public class UserService {
         }
     }
 
-    public User addUser(User user) throws UserAlreadyExistException {
-        if (isEmailAlreadyExist(user.getEmail())) {
-            throw new UserAlreadyExistException("Account already exist with given email: " + user.getEmail());
+    public void addUser(Map<String, Object> userMap) throws UserAlreadyExistException {
+        String email = (String) userMap.get(Constants.EMAIL);
+        if (isEmailAlreadyExist(email)) {
+            throw new UserAlreadyExistException("Account already exist with given email: " + email);
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        String name = (String) userMap.get(Constants.NAME);
+        String password = (String) userMap.get(Constants.PASSWORD);
+        String encodedPwd = passwordEncoder.encode(password);
+        Long primaryMobile = Long.parseLong((String) userMap.get(Constants.MOBILE_NUMBER));
+
+        // As of now, role is hardcoded
+        Role role = new Role();
+        role.setName(Constants.USER);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+
+        User user = new User(name, encodedPwd, email, roles, true, primaryMobile);
+        userRepository.save(user);
     }
 
     public void deleteUserById(Long id) throws RecordNotFoundException {

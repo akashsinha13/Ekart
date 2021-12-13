@@ -8,16 +8,22 @@ import java.util.*;
 
 public class AuthUserDetails implements UserDetails {
 
-    private String userName;
+    private String name;
+    private String userName; // email is used as userName to authenticate
     private String password;
     private boolean active;
     private List<GrantedAuthority> authorities;
 
     public AuthUserDetails(User user) {
+        this.name = user.getName();
         this.userName = user.getEmail();
         this.password = user.getPassword();
         this.active = user.isActive();
         this.authorities = getAuthorities(user.getRoles());
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

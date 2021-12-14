@@ -4,6 +4,7 @@ import com.ekart.dto.ProductDto;
 import com.ekart.dto.UserDto;
 import com.ekart.exception.RecordNotFoundException;
 import com.ekart.exception.UserAlreadyExistException;
+import com.ekart.model.Address;
 import com.ekart.model.Product;
 import com.ekart.model.User;
 import com.ekart.service.UserService;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,14 +48,24 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) throws UserAlreadyExistException {
-        User newUser = userService.addUser(user);
-        return new ResponseEntity<User>(newUser, new HttpHeaders(), HttpStatus.CREATED);
+    public ResponseEntity<String> addUser(@RequestBody Map<String, Object> request) throws UserAlreadyExistException {
+        userService.addUser(request);
+        return new ResponseEntity<String>("User added successfully", new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
     public HttpStatus deleteUserById(@PathVariable Long id) throws RecordNotFoundException {
         userService.deleteUserById(id);
         return HttpStatus.FORBIDDEN;
+    }
+
+    @PutMapping(path = "/{id}/role")
+    public void addRoleToUser(@PathVariable Long id, @RequestBody String role) throws RecordNotFoundException {
+        userService.addRole(id, role);
+    }
+
+    @PutMapping(path = "/{id}/address")
+    public void addAddressToUser(@PathVariable Long id, @RequestBody List<Address> address) throws RecordNotFoundException {
+        userService.addAddress(id, address);
     }
 }

@@ -30,5 +30,5 @@ public class Size {
 
     @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Product> products;
+    private Set<SubCategory> subCategories;
 }

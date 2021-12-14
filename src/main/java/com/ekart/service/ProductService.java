@@ -5,6 +5,7 @@ import com.ekart.dao.BrandRepository;
 import com.ekart.dao.CategoryRepository;
 import com.ekart.dao.ProductRepository;
 import com.ekart.dao.SizeRepository;
+import com.ekart.dao.SubCategoryRepository;
 import com.ekart.exception.RecordNotFoundException;
 import com.ekart.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class ProductService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private SubCategoryRepository subCategoryRepository;
 
     @Autowired
     private BrandRepository brandRepository;
@@ -59,6 +63,7 @@ public class ProductService {
 
     public Product saveProduct(Map<String, Object> productMap) {
         Category newCategory;
+        SubCategory newSubCategory;
         Brand newBrand;
         Set<Size> newSize = new HashSet<>();
         List<String> desc = new ArrayList<>();
@@ -70,6 +75,14 @@ public class ProductService {
             newCategory.setName(categoryName);
         } else {
             newCategory = category.get();
+        }
+        String subCategoryName = (String) productMap.get(Constants.SUBCATEGORY);
+        Optional<SubCategory> subCategory = subCategoryRepository.findSubCategoryByName(categoryName);
+        if(!category.isPresent()) {
+            newSubCategory = new SubCategory();
+            newSubCategory.setName(subCategoryName);
+        } else {
+            newSubCategory = subCategory.get();
         }
         String brandName = (String) productMap.get(Constants.BRAND);
         Optional<Brand> brand = brandRepository.findBrandByName(brandName);
@@ -103,8 +116,7 @@ public class ProductService {
         BigDecimal price = new BigDecimal((Integer) productMap.get(Constants.PRICE));
         Integer quantity = (Integer) productMap.get(Constants.QUANTITY);
         Double discount = ((Integer) productMap.get(Constants.DISCOUNT)).doubleValue();
-
-        Product product = new Product(name, newCategory, newBrand, newSize, newColor, desc,
+        Product product = new Product(name, newSubCategory, newBrand, newSize, newColor, desc,
                 price, discount, quantity, thumbnailImage,  images);
         return productRepository.save(product);
     }

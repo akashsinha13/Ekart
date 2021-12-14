@@ -1,6 +1,5 @@
 package com.ekart.model;
 
-import com.ekart.validator.CheckEmail;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Getter;
@@ -15,6 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -43,34 +43,21 @@ public class User {
 
     @NotNull
     @Size(min = 1)
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    private String name;
 
     @NotNull
-    private byte[] password;
+    private String password;
 
     @NotNull
-    @CheckEmail
+    @Column(unique = true)
     private String email;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id")
-    )
-    private Set<Role> roles;
-
-    private boolean enabled;
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    private Set<Role> roles = new HashSet<>();
 
     private boolean active;
 
-    @NotNull
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")
     private List<Address> addresses;
@@ -91,9 +78,16 @@ public class User {
     @Column(name = "secondary_mobile")
     private Long secondaryMobile;
 
-    private Long telephone;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
     private Cart cart;
+
+    public User(@NotNull @Size(min = 1) String name, @NotNull String password, @NotNull String email, Set<Role> roles, boolean active, @NotNull Long primaryMobile) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+        this.active = active;
+        this.primaryMobile = primaryMobile;
+    }
 }

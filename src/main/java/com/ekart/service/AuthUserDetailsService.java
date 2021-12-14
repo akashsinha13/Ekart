@@ -31,9 +31,11 @@ public class AuthUserDetailsService implements UserDetailsService {
             throw new RuntimeException("blocked");
         }
 
-        Optional<User> user = userRepository.findByEmail(email);
-        user.orElseThrow(() -> new UsernameNotFoundException("No User found with: " + email));
-        return user.map(AuthUserDetails::new).get();
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("No User found with: " + email);
+        }
+        return new AuthUserDetails(user);
     }
 
     private String getClientIP() {

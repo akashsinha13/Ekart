@@ -29,17 +29,4 @@ public class CategoryService {
             throw new RecordNotFoundException("No category exists for given id " + id);
         }
     }
-
-    public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
-    }
-
-    public void deleteCategoryById(Long id) throws RecordNotFoundException {
-        Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            categoryRepository.deleteById(id);
-        } else {
-            throw new RecordNotFoundException("No category exists for given id " + id);
-        }
-    }
 }

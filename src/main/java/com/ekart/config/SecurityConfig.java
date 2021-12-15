@@ -37,10 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // use for authorization and form login
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.cors().disable();
+        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/login").permitAll()
 //                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
 //                .antMatchers("/api/v1/brands/**").hasAnyRole("ADMIN", "STAFF")
 //                .antMatchers("/api/v1/category/**").hasAnyRole("ADMIN", "STAFF")

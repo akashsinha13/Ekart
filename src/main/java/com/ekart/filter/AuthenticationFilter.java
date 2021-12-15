@@ -63,8 +63,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         ResponseCookie responseCookie = ResponseCookie
                 .from("access_token", accessToken)
                 .secure(true)
-                .httpOnly(true)
-                .maxAge(0)
+                .httpOnly(false)
+                .maxAge(120)
                 .sameSite("None")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());

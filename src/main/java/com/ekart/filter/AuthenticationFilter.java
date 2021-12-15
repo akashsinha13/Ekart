@@ -65,7 +65,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .secure(true)
                 .httpOnly(false)
                 .maxAge(240)
-                .domain(request.getHeader("Origin"))
+                .domain("127.0.0.1")
                 .sameSite("None")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());

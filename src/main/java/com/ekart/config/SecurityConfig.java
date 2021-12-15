@@ -5,6 +5,7 @@ import com.ekart.filter.AuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/**").permitAll()
 //                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
 //                .antMatchers("/api/v1/brands/**").hasAnyRole("ADMIN", "STAFF")
 //                .antMatchers("/api/v1/category/**").hasAnyRole("ADMIN", "STAFF")

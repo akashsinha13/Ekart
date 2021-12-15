@@ -40,14 +40,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/login").permitAll()
 //                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
 //                .antMatchers("/api/v1/brands/**").hasAnyRole("ADMIN", "STAFF")
 //                .antMatchers("/api/v1/category/**").hasAnyRole("ADMIN", "STAFF")
 //                .antMatchers("/api/v1/sizes/**").hasAnyRole("ADMIN", "STAFF")
 //                .antMatchers(HttpMethod.POST, "/api/v1/products/**").hasAnyRole("ADMIN", "STAFF")
 //                .antMatchers(HttpMethod.PUT, "/api/v1/products/**").hasAnyRole("ADMIN", "STAFF")
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http.addFilter(new AuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

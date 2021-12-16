@@ -6,8 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.ekart.model.AuthUserDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -60,14 +58,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
-        ResponseCookie responseCookie = ResponseCookie
-                .from("access_token", accessToken)
-                .secure(true)
-                .httpOnly(false)
-                .maxAge(240)
-                .sameSite("None")
-                .build();
-        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+        // response.setHeader("access_token", accessToken);
+        Cookie sessionCookie = new Cookie("access_token", accessToken);
+        response.addCookie(sessionCookie);
 
         // Response body
         LoginResponse loginResponse = new LoginResponse(user.getName(), user.isEnabled(), user.getUsername());

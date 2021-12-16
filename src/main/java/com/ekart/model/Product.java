@@ -69,6 +69,11 @@ public class Product {
     private Color color;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties("products")
+    private Category category;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sub_category_id")
     @JsonIgnoreProperties("products")
     private SubCategory subCategory;
@@ -109,10 +114,11 @@ public class Product {
     @JsonIgnore
     private List<byte[]> images;
 
-    public Product(String name, SubCategory subCategory, Brand brand, Set<Size> size, Color color, List<String> description,
+    public Product(String name, Category category, SubCategory subCategory, Brand brand, Set<Size> size, Color color, List<String> description,
                    BigDecimal price, Double discount, Integer quantity, byte[] thumbnailImage, List<byte[]> images
                    ) {
         this.name = name;
+        this.category = category;
         this.subCategory = subCategory;
         this.brand = brand;
         this.size = size;

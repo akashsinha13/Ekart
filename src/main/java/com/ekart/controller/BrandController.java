@@ -28,7 +28,11 @@ public class BrandController {
     public ResponseEntity<List<BrandDto>> getAllBrand() {
         List<Brand> brands = brandService.getAllBrand();
         List<BrandDto> brandsResponse = brands.stream()
-                                              .map(brand -> modelMapper.map(brand, BrandDto.class))
+                                              .map(brand -> {
+                                                  BrandDto dto = modelMapper.map(brand, BrandDto.class);
+                                                  dto.setTotalCount(brand.getProducts().size());
+                                                  return dto;
+                                              })
                                               .collect(Collectors.toList());
         return new ResponseEntity<List<BrandDto>>(brandsResponse, new HttpHeaders(), HttpStatus.OK);
     }

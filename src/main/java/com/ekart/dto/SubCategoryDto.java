@@ -6,4 +6,5 @@ import lombok.Data;
 public class SubCategoryDto {
     private Long id;
     private String name;
+    private int totalCount;
 }

@@ -77,8 +77,8 @@ public class ProductService {
             newCategory = category.get();
         }
         String subCategoryName = (String) productMap.get(Constants.SUBCATEGORY);
-        Optional<SubCategory> subCategory = subCategoryRepository.findSubCategoryByName(categoryName);
-        if(!category.isPresent()) {
+        Optional<SubCategory> subCategory = subCategoryRepository.findSubCategoryByName(subCategoryName);
+        if(!subCategory.isPresent()) {
             newSubCategory = new SubCategory();
             newSubCategory.setName(subCategoryName);
         } else {

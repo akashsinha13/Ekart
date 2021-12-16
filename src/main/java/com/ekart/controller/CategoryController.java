@@ -28,7 +28,11 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDto>> getAllCategory() {
         List<Category> categories = categoryService.getAllCategory();
         List<CategoryDto> categoryResponse = categories.stream()
-                                                       .map(category -> modelMapper.map(category, CategoryDto.class))
+                                                       .map(category -> {
+                                                           CategoryDto dto = modelMapper.map(category, CategoryDto.class);
+                                                           dto.setTotalCount(category.getProducts().size());
+                                                           return dto;
+                                                       })
                                                        .collect(Collectors.toList());
         return new ResponseEntity<List<CategoryDto>>(categoryResponse, new HttpHeaders(), HttpStatus.OK);
     }

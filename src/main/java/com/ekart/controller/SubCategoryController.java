@@ -28,7 +28,11 @@ public class SubCategoryController {
     public ResponseEntity<List<SubCategoryDto>> getAllSubCategory() {
         List<SubCategory> subCategories = subCategoryService.getAllSubCategory();
         List<SubCategoryDto> subCategoryResponse = subCategories.stream()
-                                                       .map(subCategory -> modelMapper.map(subCategory, SubCategoryDto.class))
+                                                       .map(subCategory -> {
+                                                           SubCategoryDto dto = modelMapper.map(subCategory, SubCategoryDto.class);
+                                                           dto.setTotalCount(subCategory.getProducts().size());
+                                                           return dto;
+                                                       })
                                                        .collect(Collectors.toList());
         return new ResponseEntity<List<SubCategoryDto>>(subCategoryResponse, new HttpHeaders(), HttpStatus.OK);
     }

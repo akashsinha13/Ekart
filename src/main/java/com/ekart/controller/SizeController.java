@@ -28,7 +28,11 @@ public class SizeController {
     public ResponseEntity<List<SizeDto>> getAllSize() {
         List<Size> sizes = sizeService.getAllSize();
         List<SizeDto> sizesResponse = sizes.stream()
-                                           .map(size -> modelMapper.map(size, SizeDto.class))
+                                           .map(size -> {
+                                               SizeDto dto = modelMapper.map(size, SizeDto.class);
+                                               dto.setTotalCount(size.getProducts().size());
+                                               return dto;
+                                           })
                                            .collect(Collectors.toList());
         return new ResponseEntity<List<SizeDto>>(sizesResponse, new HttpHeaders(), HttpStatus.OK);
     }

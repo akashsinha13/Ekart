@@ -1,5 +1,6 @@
 package com.ekart.dao;
 
+import com.ekart.model.Category;
 import com.ekart.model.Product;
 
 import com.ekart.model.SubCategory;
@@ -18,4 +19,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select images from product_images where product_id=:id", nativeQuery = true)
     List<byte[]> getProductImagesById(@Param("id") Long id);
     Optional<Page<Product>> findProductBySubCategory(Pageable pageable, SubCategory subCategory);
+    Optional<Page<Product>> findProductByCategory(Pageable pageable, Category category);
 }

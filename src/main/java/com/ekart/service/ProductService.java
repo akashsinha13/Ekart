@@ -77,8 +77,8 @@ public class ProductService {
             newCategory = category.get();
         }
         String subCategoryName = (String) productMap.get(Constants.SUBCATEGORY);
-        Optional<SubCategory> subCategory = subCategoryRepository.findSubCategoryByName(categoryName);
-        if(!category.isPresent()) {
+        Optional<SubCategory> subCategory = subCategoryRepository.findSubCategoryByName(subCategoryName);
+        if(!subCategory.isPresent()) {
             newSubCategory = new SubCategory();
             newSubCategory.setName(subCategoryName);
         } else {
@@ -116,7 +116,7 @@ public class ProductService {
         BigDecimal price = new BigDecimal((Integer) productMap.get(Constants.PRICE));
         Integer quantity = (Integer) productMap.get(Constants.QUANTITY);
         Double discount = ((Integer) productMap.get(Constants.DISCOUNT)).doubleValue();
-        Product product = new Product(name, newSubCategory, newBrand, newSize, newColor, desc,
+        Product product = new Product(name, newCategory, newSubCategory, newBrand, newSize, newColor, desc,
                 price, discount, quantity, thumbnailImage,  images);
         return productRepository.save(product);
     }

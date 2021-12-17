@@ -2,8 +2,10 @@ package com.ekart.controller;
 
 import com.ekart.dto.ProductDto;
 import com.ekart.exception.RecordNotFoundException;
+import com.ekart.model.Category;
 import com.ekart.model.Product;
 import com.ekart.model.SubCategory;
+import com.ekart.service.CategoryService;
 import com.ekart.service.SubCategoryService;
 import com.ekart.service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -26,6 +28,9 @@ public class ProductController {
 
     @Autowired
     private SubCategoryService subCategoryService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -63,6 +68,19 @@ public class ProductController {
     public HttpStatus deleteProductById(@PathVariable Long id) throws RecordNotFoundException {
         productService.deleteProductById(id);
         return HttpStatus.FORBIDDEN;
+    }
+
+    @GetMapping(path = "/category/{id}")
+    public ResponseEntity<List<ProductDto>> findProductByCategory(@PathVariable Long id,
+                                                                     @RequestParam(defaultValue = "0") Integer pageNo,
+                                                                     @RequestParam(defaultValue = "10") Integer pageSize,
+                                                                     @RequestParam(defaultValue = "name") String sortBy) throws RecordNotFoundException {
+        Category category = categoryService.getCategoryById(id);
+        List<Product> products = categoryService.findProductsByCategory(category,pageNo, pageSize, sortBy);
+        List<ProductDto> productsResponse = products.stream()
+                .map(product -> modelMapper.map(product, ProductDto.class))
+                .collect(Collectors.toList());
+        return new ResponseEntity<List<ProductDto>>(productsResponse, new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/subcategory/{id}")

@@ -6,6 +6,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.ekart.model.AuthUserDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -54,16 +56,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
 
-        // fixed CORS issue
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-
-        // response.setHeader("access_token", accessToken);
-        Cookie sessionCookie = new Cookie("access_token", accessToken);
-        response.addCookie(sessionCookie);
+//        ResponseCookie responseCookie = ResponseCookie.from("access_token", accessToken)
+//                .secure(true)
+//                .httpOnly(false)
+//                .sameSite("None")
+//                .build();
+//        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
 
         // Response body
-        LoginResponse loginResponse = new LoginResponse(user.getName(), user.isEnabled(), user.getUsername());
+        LoginResponse loginResponse = new LoginResponse(user.getName(), user.isEnabled(), user.getUsername(), accessToken);
         String userJsonString = new Gson().toJson(loginResponse);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
@@ -101,11 +102,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         private String name;
         private boolean isActive;
         private String email;
+        private String token;
 
-        public LoginResponse(String name, boolean isActive, String email) {
+        public LoginResponse(String name, boolean isActive, String email, String token) {
             this.name = name;
             this.isActive = isActive;
             this.email = email;
+            this.token = token;
         }
     }
 }

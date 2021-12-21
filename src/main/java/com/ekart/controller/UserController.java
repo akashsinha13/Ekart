@@ -48,9 +48,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addUser(@RequestBody Map<String, Object> request) throws UserAlreadyExistException {
+    public HttpStatus addUser(@RequestBody Map<String, Object> request) throws UserAlreadyExistException {
         userService.addUser(request);
-        return new ResponseEntity<String>("User added successfully", new HttpHeaders(), HttpStatus.CREATED);
+        return HttpStatus.CREATED;
     }
 
     @DeleteMapping(path = "/{id}")

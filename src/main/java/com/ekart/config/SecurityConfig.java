@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                 .antMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.PUT).hasAnyRole("ADMIN", "STAFF")
+                .antMatchers(HttpMethod.POST, "/api/v1/products/**").permitAll()
                 .antMatchers(HttpMethod.POST).hasAnyRole("ADMIN", "STAFF")
                 .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                 .anyRequest().authenticated();
@@ -72,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200/"));
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Accept", "X-Requested-With", "remember-me", "Authorization"));

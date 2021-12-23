@@ -5,6 +5,7 @@ import com.ekart.filter.AuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,12 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
-//                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-//                .antMatchers("/api/v1/brands/**").hasAnyRole("ADMIN", "STAFF")
-//                .antMatchers("/api/v1/category/**").hasAnyRole("ADMIN", "STAFF")
-//                .antMatchers("/api/v1/sizes/**").hasAnyRole("ADMIN", "STAFF")
-//                .antMatchers(HttpMethod.POST, "/api/v1/products/**").hasAnyRole("ADMIN", "STAFF")
-//                .antMatchers(HttpMethod.PUT, "/api/v1/products/**").hasAnyRole("ADMIN", "STAFF")
+                .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT).hasAnyRole("ADMIN", "STAFF")
+                .antMatchers(HttpMethod.POST, "/api/v1/products/**").permitAll()
+                .antMatchers(HttpMethod.POST).hasAnyRole("ADMIN", "STAFF")
+                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilter(new AuthenticationFilter(authenticationManagerBean()));
@@ -71,10 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200/"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Accept", "X-Requested-With", "remember-me", "Authorization"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -28,7 +28,7 @@ public class Size {
     @Column(unique = true)
     private String size;
 
-    @ManyToMany(mappedBy = "size", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Product> products;
 }

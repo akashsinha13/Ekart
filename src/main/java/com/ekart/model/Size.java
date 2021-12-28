@@ -28,11 +28,7 @@ public class Size {
     @Column(unique = true)
     private String size;
 
-    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<SubCategory> subCategories;
-
-    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "size", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Product> products;
 }

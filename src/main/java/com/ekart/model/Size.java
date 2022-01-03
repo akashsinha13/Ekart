@@ -30,9 +30,5 @@ public class Size {
 
     @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<SubCategory> subCategories;
-
-    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Set<Product> products;
 }

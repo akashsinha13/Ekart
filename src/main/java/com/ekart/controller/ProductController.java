@@ -2,9 +2,7 @@ package com.ekart.controller;
 
 import com.ekart.dto.ProductDto;
 import com.ekart.exception.RecordNotFoundException;
-import com.ekart.model.Category;
 import com.ekart.model.Product;
-import com.ekart.model.SubCategory;
 import com.ekart.service.CategoryService;
 import com.ekart.service.SubCategoryService;
 import com.ekart.service.ProductService;
@@ -15,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,15 +34,19 @@ public class ProductController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(defaultValue = "0") Integer pageNo,
-                                                           @RequestParam(defaultValue = "10") Integer pageSize,
-                                                           @RequestParam(defaultValue = "name") String sortBy) {
-        List<Product> products = productService.getAllProducts(pageNo, pageSize, sortBy);
+    @PostMapping
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestBody Map<String, Object> request) {
+        List<Product> products = productService.getAllProducts(request);
         List<ProductDto> productsResponse = products.stream()
                                                     .map(product -> modelMapper.map(product, ProductDto.class))
                                                     .collect(Collectors.toList());
         return new ResponseEntity<List<ProductDto>>(productsResponse, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/getProductFilters")
+    public ResponseEntity<Map<String, Object>> getFilterCriteria(@RequestBody Map<String, Object> request) {
+        Map<String, Object> map = productService.getFilterCriteria(request);
+        return new ResponseEntity<Map<String, Object>>(map, new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}/images")
@@ -58,7 +61,7 @@ public class ProductController {
         return new ResponseEntity<Product>(product, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(path = "/add")
     public ResponseEntity<Product> addProduct(@RequestBody Map<String, Object> request) {
         Product newProduct = productService.saveProduct(request);
         return new ResponseEntity<Product>(newProduct, new HttpHeaders(), HttpStatus.CREATED);
@@ -68,31 +71,5 @@ public class ProductController {
     public HttpStatus deleteProductById(@PathVariable Long id) throws RecordNotFoundException {
         productService.deleteProductById(id);
         return HttpStatus.FORBIDDEN;
-    }
-
-    @GetMapping(path = "/category/{id}")
-    public ResponseEntity<List<ProductDto>> findProductByCategory(@PathVariable Long id,
-                                                                     @RequestParam(defaultValue = "0") Integer pageNo,
-                                                                     @RequestParam(defaultValue = "10") Integer pageSize,
-                                                                     @RequestParam(defaultValue = "name") String sortBy) throws RecordNotFoundException {
-        Category category = categoryService.getCategoryById(id);
-        List<Product> products = categoryService.findProductsByCategory(category,pageNo, pageSize, sortBy);
-        List<ProductDto> productsResponse = products.stream()
-                .map(product -> modelMapper.map(product, ProductDto.class))
-                .collect(Collectors.toList());
-        return new ResponseEntity<List<ProductDto>>(productsResponse, new HttpHeaders(), HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/subcategory/{id}")
-    public ResponseEntity<List<ProductDto>> findProductBySubCategory(@PathVariable Long id,
-                                                                     @RequestParam(defaultValue = "0") Integer pageNo,
-                                                                     @RequestParam(defaultValue = "10") Integer pageSize,
-                                                                     @RequestParam(defaultValue = "name") String sortBy) throws RecordNotFoundException {
-        SubCategory subCategory = subCategoryService.getSubCategoryById(id);
-        List<Product> products = subCategoryService.findProductBySubCategory(subCategory,pageNo, pageSize, sortBy);
-        List<ProductDto> productsResponse = products.stream()
-                .map(product -> modelMapper.map(product, ProductDto.class))
-                .collect(Collectors.toList());
-        return new ResponseEntity<List<ProductDto>>(productsResponse, new HttpHeaders(), HttpStatus.OK);
     }
 }

@@ -19,4 +19,10 @@ public class Constants {
     public final static String ADMIN = "admin";
     public final static String STAFF = "staff";
     public final static String USER = "user";
+    public final static String PAGE_NO = "page_no";
+    public final static String PAGE_SIZE = "page_size";
+    public final static String SORT_BY = "sort_by";
+    public final static String MIN_PRICE = "min_price";
+    public final static String MAX_PRICE = "max_price";
+    public final static String SUB_CATEGORY = "subCategory";
 }
